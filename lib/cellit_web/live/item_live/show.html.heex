@@ -1,0 +1,56 @@
+<h1>Show Item</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.item_show_path(@socket, :show, @item)}>
+    <.live_component
+      module={CellitWeb.ItemLive.FormComponent}
+      id={@item.id}
+      title={@page_title}
+      action={@live_action}
+      item={@item}
+      return_to={Routes.item_show_path(@socket, :show, @item)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @item.name %>
+  </li>
+
+  <li>
+    <strong>Category:</strong>
+    <%= @item.category_id %>
+  </li>
+
+  <li>
+    <strong>Price:</strong>
+    <%= @item.price %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @item.description %>
+  </li>
+
+  <li>
+    <strong>Available:</strong>
+    <%= @item.available %>
+  </li>
+
+  <li>
+    <strong>Min order:</strong>
+    <%= @item.min_order %>
+  </li>
+
+  <li>
+    <strong>Brand:</strong>
+    <%= @item.brand %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.item_show_path(@socket, :edit, @item), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.item_index_path(@socket, :index) %></span>

@@ -1,6 +1,8 @@
 defmodule CellitWeb.Router do
   use CellitWeb, :router
 
+  import CellitWeb.UserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,7 @@ defmodule CellitWeb.Router do
     plug :put_root_layout, {CellitWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
   end
 
   pipeline :api do
@@ -51,5 +54,59 @@ defmodule CellitWeb.Router do
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
+  end
+
+  ## Authentication routes
+
+  scope "/", CellitWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    get "/users/register", UserRegistrationController, :new
+    post "/users/register", UserRegistrationController, :create
+    get "/users/log_in", UserSessionController, :new
+    post "/users/log_in", UserSessionController, :create
+    get "/users/reset_password", UserResetPasswordController, :new
+    post "/users/reset_password", UserResetPasswordController, :create
+    get "/users/reset_password/:token", UserResetPasswordController, :edit
+    put "/users/reset_password/:token", UserResetPasswordController, :update
+
+    live "/items", ItemLive.Index, :index
+    live "/items/new", ItemLive.Index, :new
+    live "/items/:id/edit", ItemLive.Index, :edit
+
+    live "/items/:id", ItemLive.Show, :show
+    live "/items/:id/show/edit", ItemLive.Show, :edit
+
+    live "/carts", CartLive.Index, :index
+    live "/carts/new", CartLive.Index, :new
+    live "/carts/:id/edit", CartLive.Index, :edit
+
+    live "/carts/:id", CartLive.Show, :show
+    live "/carts/:id/show/edit", CartLive.Show, :edit
+
+    live "/cart_items", CartItemLive.Index, :index
+    live "/cart_items/new", CartItemLive.Index, :new
+    live "/cart_items/:id/edit", CartItemLive.Index, :edit
+
+    live "/cart_items/:id", CartItemLive.Show, :show
+    live "/cart_items/:id/show/edit", CartItemLive.Show, :edit
+  end
+
+  scope "/", CellitWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    get "/users/settings", UserSettingsController, :edit
+    put "/users/settings", UserSettingsController, :update
+    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+  end
+
+  scope "/", CellitWeb do
+    pipe_through [:browser]
+
+    delete "/users/log_out", UserSessionController, :delete
+    get "/users/confirm", UserConfirmationController, :new
+    post "/users/confirm", UserConfirmationController, :create
+    get "/users/confirm/:token", UserConfirmationController, :edit
+    post "/users/confirm/:token", UserConfirmationController, :update
   end
 end
