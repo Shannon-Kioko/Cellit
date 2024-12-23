@@ -7,7 +7,9 @@ defmodule Cellit.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
-    field :name, :string
+    field :first_name, :string
+    field :last_name, :string
+    field :location, :string
     field :role, :string, default: "User"
 
     belongs_to :store, Cellit.Market.Store
@@ -38,7 +40,8 @@ defmodule Cellit.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:first_name, :last_name, :email, :location, :password])
+    |> validate_required([:first_name, :last_name, :email, :location, :password])
     |> validate_email()
     |> validate_password(opts)
   end
@@ -59,7 +62,7 @@ defmodule Cellit.Accounts.User do
     # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
     |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/,
-      message: "at least one digit or punctuation character"
+      message: "Enter at least one digit or punctuation character"
     )
     |> maybe_hash_password(opts)
   end
