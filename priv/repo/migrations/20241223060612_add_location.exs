@@ -5,6 +5,5 @@ defmodule Cellit.Repo.Migrations.AddLocation do
     alter table(:users) do
       add :location, :string
     end
-
   end
 end

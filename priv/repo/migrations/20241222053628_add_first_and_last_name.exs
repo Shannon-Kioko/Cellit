@@ -6,6 +6,5 @@ defmodule Cellit.Repo.Migrations.AddFirstAndLastName do
       add :first_name, :string
       add :last_name, :string
     end
-
   end
 end

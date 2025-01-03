@@ -20,7 +20,8 @@ defmodule CellitWeb.Router do
   scope "/", CellitWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", HomeLive.Index, :index
+
   end
 
   # Other scopes may use custom stacks.

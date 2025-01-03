@@ -17,14 +17,16 @@ config :cellit, CellitWeb.Endpoint,
   pubsub_server: Cellit.PubSub,
   live_view: [signing_salt: "tVOWobvr"]
 
-config :tailwind, version: "3.4.17", default: [
-  args: ~w(
+config :tailwind,
+  version: "3.4.17",
+  default: [
+    args: ~w(
     --config=tailwind.config.js
     --input=css/app.css
     --output=../priv/static/assets/app.css
   ),
-  cd: Path.expand("../assets", __DIR__)
-]
+    cd: Path.expand("../assets", __DIR__)
+  ]
 
 # Configures the mailer
 #
