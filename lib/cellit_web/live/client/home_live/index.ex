@@ -9,13 +9,12 @@ defmodule CellitWeb.HomeLive.Index do
       else
         Accounts.get_user_by_session_token(session["user_token"])
       end
-      IO.inspect(current_user, label: "current_user")
-      IO.inspect(session["user_token"], label: "Session token")
+
+    IO.inspect(current_user, label: "current_user")
+    IO.inspect(session["user_token"], label: "Session token")
 
     {:ok,
-    socket
-    |> assign(:current_user, current_user)
-  }
+     socket
+     |> assign(:current_user, current_user)}
   end
-
 end

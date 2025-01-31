@@ -29,13 +29,22 @@
         <td><%= cart.total %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.cart_show_path(@socket, :show, cart) %></span>
-          <span><%= live_patch "Edit", to: Routes.cart_index_path(@socket, :edit, cart) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: cart.id, data: [confirm: "Are you sure?"] %></span>
+          <span>
+            <%= live_redirect("Show", to: Routes.cart_show_path(@socket, :show, cart)) %>
+          </span>
+          <span><%= live_patch("Edit", to: Routes.cart_index_path(@socket, :edit, cart)) %></span>
+          <span>
+            <%= link("Delete",
+              to: "#",
+              phx_click: "delete",
+              phx_value_id: cart.id,
+              data: [confirm: "Are you sure?"]
+            ) %>
+          </span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch "New Cart", to: Routes.cart_index_path(@socket, :new) %></span>
+<span><%= live_patch("New Cart", to: Routes.cart_index_path(@socket, :new)) %></span>

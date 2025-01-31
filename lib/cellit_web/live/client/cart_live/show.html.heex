@@ -14,7 +14,6 @@
 <% end %>
 
 <ul>
-
   <li>
     <strong>User:</strong>
     <%= @cart.user_id %>
@@ -24,8 +23,10 @@
     <strong>Total:</strong>
     <%= @cart.total %>
   </li>
-
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.cart_show_path(@socket, :edit, @cart), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.cart_index_path(@socket, :index) %></span>
+<span>
+  <%= live_patch("Edit", to: Routes.cart_show_path(@socket, :edit, @cart), class: "button") %>
+</span>
+|
+<span><%= live_redirect("Back", to: Routes.cart_index_path(@socket, :index)) %></span>

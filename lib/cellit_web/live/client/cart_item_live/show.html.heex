@@ -14,13 +14,17 @@
 <% end %>
 
 <ul>
-
   <li>
     <strong>Quantity:</strong>
     <%= @cart_item.quantity %>
   </li>
-
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.cart_item_show_path(@socket, :edit, @cart_item), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.cart_item_index_path(@socket, :index) %></span>
+<span>
+  <%= live_patch("Edit",
+    to: Routes.cart_item_show_path(@socket, :edit, @cart_item),
+    class: "button"
+  ) %>
+</span>
+|
+<span><%= live_redirect("Back", to: Routes.cart_item_index_path(@socket, :index)) %></span>
